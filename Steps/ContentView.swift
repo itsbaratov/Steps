@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Charts
+import HealthKit
 
 // Sample data structure for a day's step data
 struct StepData {
@@ -16,18 +17,10 @@ struct StepData {
     var goalAchieved: Bool
 }
 
-// Mock data for the purpose of this example
-let mockStepData = [
-    StepData(day: "Fri", steps: 6466, distance: 4.9, goalAchieved: false),
-    StepData(day: "Sat", steps: 4496, distance: 3.6, goalAchieved: false),
-    StepData(day: "Sun", steps: 474, distance: 5.8, goalAchieved: false),
-    StepData(day: "Mon", steps: 16247, distance: 12.2, goalAchieved: true),
-    StepData(day: "Tue", steps: 7809, distance: 5.8, goalAchieved: true),
-    StepData(day: "Wed", steps: 1400, distance: 1.0, goalAchieved: false),
-    StepData(day: "Thu", steps: 4000, distance: 3.3, goalAchieved: false)
-]
 
 struct ContentView: View {
+    @StateObject var stepDataManager = StepDataManager() // Observe the StepDataManager instance
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -51,8 +44,7 @@ struct ContentView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         Chart {
-                            ForEach(mockStepData.indices, id: \.self) { index in
-                                let data = mockStepData[index]
+                            ForEach(stepDataManager.stepsData.indices, id: \.self) { index in let data = stepDataManager.stepsData[index]
                                 BarMark(
                                     x: .value("Day", data.day),
                                     y: .value("Steps", data.steps)
@@ -110,6 +102,15 @@ struct ContentView: View {
             .navigationTitle("Pedometer++")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .onAppear {
+                stepDataManager.requestAuthorization { authorized in
+                    if authorized {
+                        stepDataManager.fetchStepCountData()
+                    } else {
+                        print("HealthKit authorization was denied by the user.")
+                    }
+                }
+            }
     }
 }
 
