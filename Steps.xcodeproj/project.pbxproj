@@ -11,6 +11,9 @@
 		5442B4D22B059E96007979D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5442B4D12B059E96007979D7 /* ContentView.swift */; };
 		5442B4D42B059E98007979D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5442B4D32B059E98007979D7 /* Assets.xcassets */; };
 		5442B4D72B059E98007979D7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5442B4D62B059E98007979D7 /* Preview Assets.xcassets */; };
+		5442B4DE2B05A2A2007979D7 /* StepDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5442B4DD2B05A2A2007979D7 /* StepDataManager.swift */; };
+		5442B4E02B05A3E1007979D7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5442B4DF2B05A3E1007979D7 /* SettingsView.swift */; };
+		5442B4E22B05A487007979D7 /* StepsChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5442B4E12B05A487007979D7 /* StepsChartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +22,9 @@
 		5442B4D12B059E96007979D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5442B4D32B059E98007979D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5442B4D62B059E98007979D7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5442B4DD2B05A2A2007979D7 /* StepDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDataManager.swift; sourceTree = "<group>"; };
+		5442B4DF2B05A3E1007979D7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5442B4E12B05A487007979D7 /* StepsChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +59,9 @@
 			children = (
 				5442B4CF2B059E96007979D7 /* StepsApp.swift */,
 				5442B4D12B059E96007979D7 /* ContentView.swift */,
+				5442B4DD2B05A2A2007979D7 /* StepDataManager.swift */,
+				5442B4DF2B05A3E1007979D7 /* SettingsView.swift */,
+				5442B4E12B05A487007979D7 /* StepsChartView.swift */,
 				5442B4D32B059E98007979D7 /* Assets.xcassets */,
 				5442B4D52B059E98007979D7 /* Preview Content */,
 			);
@@ -137,8 +146,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5442B4E22B05A487007979D7 /* StepsChartView.swift in Sources */,
 				5442B4D22B059E96007979D7 /* ContentView.swift in Sources */,
+				5442B4E02B05A3E1007979D7 /* SettingsView.swift in Sources */,
 				5442B4D02B059E96007979D7 /* StepsApp.swift in Sources */,
+				5442B4DE2B05A2A2007979D7 /* StepDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +286,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Steps/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "xaxa Steps needs access to your step count data to display your walking and running distances. xaxa";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -302,6 +315,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Steps/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "xaxa Steps needs access to your step count data to display your walking and running distances. xaxa";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
