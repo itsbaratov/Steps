@@ -46,7 +46,7 @@ struct ContentView: View {
                     HStack {
                         // Calculate the width based on the total number of entries
                         // You can adjust the multiplier to increase or decrease the width of each bar
-                        let barWidth: CGFloat = 70 // Example width for each bar
+                        let barWidth: CGFloat = 60 // Example width for each bar
                         let chartWidth = barWidth * CGFloat(stepDataManager.stepsData.count)
                         
                         Chart {
@@ -63,15 +63,25 @@ struct ContentView: View {
                                         .font(.caption)
                                         .foregroundColor(data.goalAchieved ? .green : .red)
                                 }
+                                .annotation(position: .overlay, alignment: .center) {
+                                            VStack {
+                                                Spacer() // Pushes the text to the bottom of the bar
+                                                Text(String(format: "%.1f km", data.distance))
+                                                    .font(.caption)
+                                                    .foregroundColor(.white) // Use a color that is visible on top of the bar color
+                                                    .padding(.bottom, 4) // Adjust the padding to fine-tune the exact position
+                                            }
+                                            .frame(maxHeight: .infinity, alignment: .bottom) // Use maxHeight to allow the Spacer to push the text to the bottom
+                                        }
                             }
                         }
                         
                         .chartYAxis(.hidden)
-                        
+                        .chartXAxis(.hidden)
                         .frame(width: chartWidth) // Dynamic width based on the number of data points
                     }
                 }
-                .padding(.leading, -10) // Adjust this as needed to align the bars to the leading edge if necessary
+                .padding(.leading, 0) // Adjust this as needed to align the bars to the leading edge if necessary
 
 
                 

@@ -27,7 +27,6 @@ class StepDataManager: ObservableObject {
     // Call this method to fetch step count data
     func fetchStepCountData() {
         let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)!
-        let now = Date()
 
         // Query to find the earliest date with step data
         let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
@@ -79,7 +78,7 @@ class StepDataManager: ObservableObject {
             }
             
             DispatchQueue.main.async {
-                self?.stepsData = stepDataArray.sorted(by: { $0.date < $1.date })
+                self?.stepsData = stepDataArray.sorted(by: { $0.date > $1.date })
             }
         }
 
