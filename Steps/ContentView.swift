@@ -11,6 +11,7 @@ import HealthKit
 
 // Sample data structure for a day's step data
 struct StepData {
+    var date: Date
     var day: String
     var steps: Int
     var distance: Double
@@ -43,8 +44,14 @@ struct ContentView: View {
                 // ScrollView for horizontal scrolling of the histogram
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
+                        // Calculate the width based on the total number of entries
+                        // You can adjust the multiplier to increase or decrease the width of each bar
+                        let barWidth: CGFloat = 70 // Example width for each bar
+                        let chartWidth = barWidth * CGFloat(stepDataManager.stepsData.count)
+                        
                         Chart {
-                            ForEach(stepDataManager.stepsData.indices, id: \.self) { index in let data = stepDataManager.stepsData[index]
+                            ForEach(stepDataManager.stepsData.indices, id: \.self) { index in
+                                let data = stepDataManager.stepsData[index]
                                 BarMark(
                                     x: .value("Day", data.day),
                                     y: .value("Steps", data.steps)
@@ -52,21 +59,19 @@ struct ContentView: View {
                                 .foregroundStyle(data.goalAchieved ? .green : .red)
                                 .cornerRadius(8)
                                 .annotation(position: .top, alignment: .center) {
-                                                    Text("\(data.steps)")
-                                                        .font(.caption)
-                                                        .foregroundColor(data.goalAchieved ? .green : .red)
-                                                }
-                                
+                                    Text("\(data.steps)")
+                                        .font(.caption)
+                                        .foregroundColor(data.goalAchieved ? .green : .red)
+                                }
                             }
                         }
-                        // This hides the Y-axis grid lines
+                        
                         .chartYAxis(.hidden)
                         
-                        // If you want to hide the X-axis grid lines as well, uncomment the following line
-                        // .chartXAxis(.hidden)
-                        .frame(minWidth: UIScreen.main.bounds.width - 1) // Adjust padding as necessary
+                        .frame(width: chartWidth) // Dynamic width based on the number of data points
                     }
                 }
+                .padding(.leading, -10) // Adjust this as needed to align the bars to the leading edge if necessary
 
 
                 
