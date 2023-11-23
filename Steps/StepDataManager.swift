@@ -63,24 +63,40 @@ class StepDataManager: ObservableObject {
                 return
             }
             
-            var stepDataArray = [StepData]()
-            statisticsCollection?.enumerateStatistics(from: startDate, to: now) { statistics, stop in
-                let count = statistics.sumQuantity()?.doubleValue(for: HKUnit.count()) ?? 0
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "E dd/MM"
-                let dayString = dateFormatter.string(from: statistics.startDate)
-                
-                let distance = count / 2000 // example conversion
-                let goalAchieved = count >= 10000 // example goal
-                
-                let stepData = StepData(date: statistics.startDate, day: dayString, steps: Int(count), distance: distance, goalAchieved: goalAchieved)
+            let weekdayFormatter = DateFormatter()
+                        weekdayFormatter.dateFormat = "E" // Format for day of the week (e.g., Mon, Tue)
+
+                        let shortDateFormatter = DateFormatter()
+                        shortDateFormatter.dateFormat = "dd/MM" // Format for short date (e.g., 22/11)
+
+                        var stepDataArray = [StepData]()
+                        var dayCount = 0
+
+                        statisticsCollection?.enumerateStatistics(from: startDate, to: now) { statistics, stop in
+                            let count = statistics.sumQuantity()?.doubleValue(for: HKUnit.count()) ?? 0
+                            let label = dayCount < 7 ? weekdayFormatter.string(from: statistics.startDate) : shortDateFormatter.string(from: statistics.startDate)
+                            dayCount += 1
+                            
+                            let distance = count / 1500 // example conversion
+                            let goalAchieved = count >= 10000 // example goal
+
+                            let stepData = StepData(date: statistics.startDate, day: label, steps: Int(count), distance: distance, goalAchieved: goalAchieved)
                             stepDataArray.append(stepData)
-            }
-            
+                        }
+
             DispatchQueue.main.async {
-                self?.stepsData = stepDataArray.sorted(by: { $0.date > $1.date })
-            }
-        }
+                        // Sort data in ascending order by date
+                        stepDataArray.sort(by: { $0.date < $1.date })
+
+                        // Modify labels for the first 7 days
+                        for index in 0..<stepDataArray.count {
+                            let label = index < 7 ? weekdayFormatter.string(from: stepDataArray[index].date) : shortDateFormatter.string(from: stepDataArray[index].date)
+                            stepDataArray[index].day = label
+                        }
+
+                        self?.stepsData = stepDataArray
+                    }
+                }
 
 
         healthStore.execute(query)

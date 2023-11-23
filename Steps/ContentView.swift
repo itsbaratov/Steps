@@ -21,19 +21,25 @@ struct StepData {
 
 struct ContentView: View {
     @StateObject var stepDataManager = StepDataManager() // Observe the StepDataManager instance
+    var firstWeekSummary: (steps: Int, distance: Double, goalPercentage: Double) {
+            let firstWeekData = stepDataManager.stepsData.prefix(7)
+            let totalSteps = firstWeekData.reduce(0) { $0 + $1.steps }
+            let totalDistance = firstWeekData.reduce(0.0) { $0 + $1.distance }
+            let goalPercentage = firstWeekData.reduce(0.0) { $0 + ($1.goalAchieved ? 1 : 0) } / 7.0 * 100
+            return (totalSteps, totalDistance, goalPercentage)
+        }
+    
     
     var body: some View {
         NavigationView {
             VStack {
                 // Header with current step count and distance
                 VStack {
-                    Text("0")
+                    Text("4552")
                         .font(.system(size: 80))
                         .fontWeight(.heavy)
-                    Text("0.0 km")
+                    Text("3 km")
                         .font(.title2)
-                    Text("0")
-                        .font(.caption)
                 }
                 .padding(.top)
                 
@@ -46,12 +52,14 @@ struct ContentView: View {
                     HStack {
                         // Calculate the width based on the total number of entries
                         // You can adjust the multiplier to increase or decrease the width of each bar
-                        let barWidth: CGFloat = 60 // Example width for each bar
+                        let barWidth: CGFloat = 56 // Example width for each bar
                         let chartWidth = barWidth * CGFloat(stepDataManager.stepsData.count)
                         
                         Chart {
                             ForEach(stepDataManager.stepsData.indices, id: \.self) { index in
                                 let data = stepDataManager.stepsData[index]
+                                
+                                
                                 BarMark(
                                     x: .value("Day", data.day),
                                     y: .value("Steps", data.steps)
@@ -77,26 +85,26 @@ struct ContentView: View {
                         }
                         
                         .chartYAxis(.hidden)
-                        .chartXAxis(.hidden)
                         .frame(width: chartWidth) // Dynamic width based on the number of data points
                     }
                 }
                 .padding(.leading, 0) // Adjust this as needed to align the bars to the leading edge if necessary
+                HStack {
+                                Text("\(firstWeekSummary.steps)")
+                                    .fontWeight(.bold)
+                                Spacer()
+                                Text(String(format: "%.1f km", firstWeekSummary.distance))
+                                    .fontWeight(.bold)
+                                Spacer()
+                                Text(String(format: "%.0f%% of Goal", firstWeekSummary.goalPercentage))
+                                    .fontWeight(.bold)
+                            }
+                            .padding(.horizontal)
 
 
                 
                 // Summary view with total steps, distance, and goal percentage
-                HStack {
-                    Text("36.892")
-                        .fontWeight(.bold)
-                    Spacer()
-                    Text("27.9 km")
-                        .fontWeight(.bold)
-                    Spacer()
-                    Text("52% of Goal")
-                        .fontWeight(.bold)
-                }
-                .padding(.horizontal)
+                
                 
                 .padding()
                 // Tab bar for navigation
@@ -106,9 +114,8 @@ struct ContentView: View {
                     Spacer()
                     Image(systemName: "figure.walk")
                     Spacer()
-                    Image(systemName: "badge.plus.radiowaves.right")
                     Spacer()
-                    Image(systemName: "gear")
+                    Image(systemName: "gearshape.fill")
                     Spacer()
                 }
                 .padding(.top)
